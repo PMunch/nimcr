@@ -66,10 +66,9 @@ if not exeName.existsFile or filename.fileNewer exeName:
 if buildStatus == 0:
   let p = startProcess(exeName,  args=args[filenamePos+1 .. ^1], 
                        options={poStdErrToStdOut, poParentStreams, poUsePath})
-  while p.running():
-    sleep(1)
+  let res = p.waitForExit()
   p.close()
-  quit p.peekExitCode()
+  quit res
 else:
   stderr.write "(nimcr) Error on build running command: " & command
   stderr.write output
