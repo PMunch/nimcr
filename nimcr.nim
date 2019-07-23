@@ -64,7 +64,11 @@ if not exeName.existsFile or filename.fileNewer exeName:
 
 # Run the target, or show an error
 if buildStatus == 0:
-  quit execShellCmd(exeName & " " & args[filenamePos + 1 .. ^1].join(" "))
+  let p = startProcess(exeName,  args=args[filenamePos+1 .. ^1], 
+                       options={poStdErrToStdOut, poParentStreams, poUsePath})
+  let res = p.waitForExit()
+  p.close()
+  quit res
 else:
   stderr.write "(nimcr) Error on build running command: " & command
   stderr.write output
