@@ -31,7 +31,7 @@ var
   command = ""
 
 if not exeName.existsFile or filename.fileNewer exeName:
-  var nimArgs: string = "c"
+  var nimArgs: string = "c -d:release"
   # Get extra arguments for nim compiler from the second line (it must start with #nimcr-args [args] )
   block:
     let scriptfile = open(filename)
@@ -45,7 +45,7 @@ if not exeName.existsFile or filename.fileNewer exeName:
   exeName.removeFile
   command = "nim " & nimArgs & " --colors:on --nimcache:" &
     getTempDir()/("nimcache-" & filename.hash.toHex) &
-    " -d:release --out:\"" & exeName & "\" " & filename
+    " --out:\"" & exeName & "\" " & filename
 
   (output, buildStatus) = execCmdEx(command)
   # Windows file hiding (hopefully, not tested)
