@@ -1,4 +1,4 @@
-#!nimcr "c --deadCodeElim:on --"
+#!/usr/bin/env nimcr
 echo "Hello World!"
 
 import os
