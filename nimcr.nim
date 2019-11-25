@@ -1,6 +1,8 @@
 import os, osproc
 import hashes, strutils
 
+const nimArgsPrefix = "#nimcr-args "
+
 # Inspect command line parameters
 let args =  commandLineParams()
 
@@ -34,13 +36,13 @@ if not exeName.existsFile or filename.fileNewer exeName:
   var nimArgs: string = "c -d:release"
   # Get extra arguments for nim compiler from the second line (it must start with #nimcr-args [args] )
   block:
-    let scriptfile = open(filename)
-    defer: scriptfile.close()
-    discard scriptfile.readLine()
-    var secondLine = scriptfile.readLine()
-    if secondLine.startsWith("#nimcr-args "):
-      secondLine.removePrefix("#nimcr-args ")
-      nimArgs = secondLine
+    var line: string
+    for line in filename.lines:
+      if line[0] != '#':
+        break
+      if line.startsWith(nimArgsPrefix):
+        nimArgs = line[nimArgsPrefix.len .. ^1]
+        break
 
   exeName.removeFile
   command = "nim " & nimArgs & " --colors:on --nimcache:" &
