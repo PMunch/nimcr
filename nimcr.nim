@@ -38,7 +38,7 @@ if not exeName.existsFile or filename.fileNewer exeName:
   block:
     var line: string
     for line in filename.lines:
-      if line[0] != '#':
+      if line.len == 0 or line[0] != '#':
         break
       if line.startsWith(nimArgsPrefix):
         nimArgs = line[nimArgsPrefix.len .. ^1]
