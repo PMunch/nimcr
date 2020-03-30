@@ -52,7 +52,7 @@ if not exeName.existsFile or filename.fileNewer exeName:
   (output, buildStatus) = execCmdEx(command)
   # Windows file hiding (hopefully, not tested)
   when defined(windows):
-    execShellCmd("attrib +H " & exeName)
+    discard execShellCmd("attrib +H " & exeName)
 
 # Run the target, or show an error
 if buildStatus == 0:
