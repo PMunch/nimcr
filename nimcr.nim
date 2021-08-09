@@ -36,7 +36,6 @@ if not exeName.fileExists or filename.fileNewer exeName:
   var nimArgs: string = "c -d:release"
   # Get extra arguments for nim compiler from the second line (it must start with #nimcr-args [args] )
   block:
-    var line: string
     for line in filename.lines:
       if line.len == 0 or line[0] != '#':
         break
